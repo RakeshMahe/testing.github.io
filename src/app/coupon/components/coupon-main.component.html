@@ -1,0 +1,90 @@
+<!-- Over all Outline -->
+<div class="overAll-Outline">
+  <!-- Container Div -->
+  <div class="container">
+    <!-- Heading Div -->
+    <div class="heading">
+      <h1>Earn Reward's</h1>
+    </div>
+    <!-- End -->
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <div class="flex search-exp">
+        <div>
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input type="text" placeholder="Search..." class="search-menu" />
+        </div>
+      </div>
+    </div>
+    <!-- End -->
+
+    <!-- Simple Content -->
+    <div class="content">
+      <h2>Get Started</h2>
+    </div>
+    <!-- End -->
+
+    <!-- horizontal Scroll Content -->
+    <div class="Scroll-Content">
+      <div class="scroll-div customScroll" (wheel)="onWheel($event)">
+        <div class="scrollable-content">
+          <div class="scroll-box1" *ngFor="let data of scrollData">
+            <p class="scroll-box-text1">{{ data.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End -->
+
+    <!-- Filter Content -->
+    <div class="filter-bar">
+      <h2>All coupon''s</h2>
+
+      <!-- First Row Coupons -->
+      <div class="overall-Grid customScroll">
+        <!-- Row 1 -->
+        <div class="row" *ngFor="let view of viewData">
+          <div class="grid-bar">
+            <div class="image-col">
+              <img [src]="view.logo" />
+            </div>
+            <div class="content-col">
+              <div class="cont-col">
+                <h1>{{ view.brand }}</h1>
+                <h3>{{ view.content }}</h3>
+              </div>
+              <button class="add-Btn">
+                <span>Add coupon</span>
+              </button>
+            </div>
+          </div>
+          <div class="grid-bar-1">
+            <div class="image-col-1">
+              <img [src]="view.logo" />
+            </div>
+            <div class="content-col-1">
+              <div class="cont-col-1">
+                <h1>{{ view.brand }}</h1>
+                <h3>{{ view.content }}</h3>
+              </div>
+              <button class="add-Btn">
+                <span>Add coupon</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+      <!-- End -->
+      <div class="button-bar">
+        <button class="bttn">
+          <span> coupon Store </span>
+        </button>
+        <button class="sec-bttn">
+          <span> My Coupon's</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

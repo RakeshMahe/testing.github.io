@@ -1,0 +1,77 @@
+<div class="header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-1 m-t-15">
+      </div>
+      <div class="col-md-10">
+      </div>
+    </div>
+  </div>
+  <div class="close" style="cursor: pointer" (click)="dismiss()">×</div>
+</div>
+<div class="modals">
+  <div class="row padding">
+    <div class="col-sm-12 text-center" style="margin: 3% 0%;" *ngIf="fee_details && fee_details.type == 1">
+      <!-- <a href="javascript:void(0)"  class="payment-btn" (click)="generateCashFreeOrder()">
+              {{(commonSandbox.preAddmissionCreating$ | async) ? 'Submitting..' :'Pay Online'}}
+          </a> -->
+      <a href="javascript:void(0)" class="payment-btn" (click)="generateCashFreeOrder()" *ngIf="is_loading == 0">
+        Pay Online
+      </a>
+      <div *ngIf="is_loading == 1">
+        <app-page-loader></app-page-loader>
+      </div>
+    </div>
+    <br *ngIf="fee_details && fee_details.type == 1">
+
+    <div class="col-sm-12 text-center" style="padding: 10px 0px 20px;">
+      <div>
+        <span class="fee-label"> Amount to be paid : Rs.{{totalPaidAmount}} </span>
+
+      </div>
+      <div *ngIf="responseDetials.lateFeeAmount != 0">
+        <span class="fee-label">Late Fee Amount : Rs.{{responseDetials.lateFeeAmount}}</span>
+      </div>
+      <div>
+        <span class="fee-label">Service Charges : Rs.{{responseDetials.voicesnap_charges}} + Bank charges according to
+          the mode of payment</span>
+      </div>
+      <ng-container  *ngIf="fee_details && fee_details.type == 1">
+        <br>
+        <div>
+          <span class="receipt-content">If you do not receive the receipt immediately after making a successful payment,
+            please allow 15-minute delay and retrieve your receipt from the receipt section.</span>
+        </div>
+        <!-- <br>
+        <div>
+          <span class="alert-content">UPI has been disabled temporarily due to technical reasons. Inconvenience regretted.
+  
+          </span>
+        </div> -->
+  
+        <div class="transaction-details">
+          <label>Bank Transaction Charges excluding 18% GST</label>
+          <br>
+          UPI : NIL
+          <br><br>
+          Netbanking :
+          <br>HDFC : 1.50%
+          <br>Other Banks : Rs.12/-
+          <br>
+          <br>Visa/Mastercard Debit Cards :  
+          <br>Amt > 2000 : 0.90%, Amt < 2000 : 0.40% <br> Rupay Debit Card : 1.90%
+            <br> Credit Card : 0.90% , Corp. Credit Card : 2.25%
+            <br>
+            <br> Credit Card EMI : 2.75%
+            <br> Paylater Free charge:  2.25 %, Lazy : 2.20%
+            <br> Cardless EMI :  2.50 % , Kretbee : 1.60 %
+            <br> Prepaid card : 1.95%
+            <br>
+  
+        </div>
+      </ng-container>
+    
+      
+    </div>
+  </div>
+</div>

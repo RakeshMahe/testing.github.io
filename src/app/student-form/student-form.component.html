@@ -1,0 +1,782 @@
+<!-- <div [responsive-window]="'parent'">
+
+  <div responsive-window #myContainerRef="container"> -->
+
+      <form [formGroup]="createStudentForm" id="student">
+          <h3 class="gen-text">
+              Student Information / {{studentId}}</h3>
+
+          <div class="staff-add-card">
+
+              <div class="sa-row flex">
+
+                  <div class="sa-r-lft">
+
+                      <div class="sarl-top-row flex">
+
+                        <div class="sa-upload">
+                            <div class="upload-staff-img">
+                                <input type="file" name="userImg" (change)="uploadImage($event)" accept="image/*" #filePath
+                                    style="display: none">
+                                    <!-- (click)="uploadButtonClick()" -->
+                                <a href="javascript: void(0)">
+                                
+                                    <img [src]="postUrl" onError="this.src='assets/imgs/users.svg';">
+            
+                                    <!-- <span>Upload Photo</span> -->
+                                </a>
+            
+                            </div> 
+                        </div>
+
+                          <div class="create-group">
+                              <h4>Student Name <sup>*</sup></h4>
+                              <input class="input-group" type="text"  formControlName="studentName" alphanumeric
+                                  numericDataType="alphaNumeric">
+                              <label class="error-data"
+                                  *ngIf="submitted && createStudentForm.get('studentName').hasError('required')">
+                                  Student Name is required</label>
+                          </div>
+
+                      </div>
+                      <!---->
+
+                      <div class="sarl-name-row flex">
+
+                          <div class="create-group">
+                              <h4>Standard <sup>*</sup></h4>
+                              <ngx-select-dropdown [disabled] = "true" formControlName="standard" [config]="standardConfig"
+                                  [options]="(studentManagementSandbox.tempStandardList$ | async)"
+                                  (change)="changeStandard($event)" [multiple]="false">
+
+                              </ngx-select-dropdown>
+                              <label class="error-data"
+                                  *ngIf="submitted && createStudentForm.get('standard').hasError('required')">
+                                  Select any Standard Name</label>
+
+                          </div>
+
+                          <div class="create-group">
+                              <h4>Section <sup>*</sup></h4>
+                              <ngx-select-dropdown [disabled] = "true" id="emptySectionValue" formControlName="section"
+                                  [config]="sectionConfig" [options]="(studentManagementSandbox.sectionList$ | async)"
+                                  (change)="chooseSection($event)" [multiple]="false">
+
+                              </ngx-select-dropdown>
+                              <label class="error-data" *ngIf="(submitted && createStudentForm.get('section').hasError('required')) 
+                          || emptySectionDisplay == 1">
+                                  Select any Section Name</label>
+                          </div>
+
+                      </div>
+                      <!---->
+
+                  </div>
+                  <!--lft-->
+
+                  <!-- <div class="sa-upload"  >
+              <div class="upload-staff-img">
+                  <input type="file" name="userImg" (change)="uploadChange($event)" accept="image/*" #filePath style="display: none">
+                  <a href="javascript: void(0)"  (click)="uploadButtonClick()">
+                  <img  [src]=" postUrl">
+                  <span>Upload Photo</span>
+                  </a>
+                  
+              </div>
+          </div> -->
+                  
+                  <!--upload-->
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Admission No</h4>
+                      <input class="input-group" type="text" formControlName="admissionNo" [disabled] = "true" >
+                      <!--                <label class="error-data" *ngIf="submitted && createStudentForm.get('admissionNo').hasError('required')">-->
+                      <!--                Admission Number is required</label>-->
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Admission Date <sup>*</sup></h4>
+                      <!-- <mat-form-field (click)="picker1.open()">
+                      <input readonly class="input-group" type="text" [max] = "maxDate" formControlName="admissionDate" matInput [matDatepicker]="picker1" autocomplete="off">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field> -->
+
+                      <mat-form-field (click)="picker1.open()">
+                          <input class="input-group" type="text" [max]="maxDate"
+                              (focusout)="comapareDate($event, '0', maxDate, 'Admission Date')"
+                              formControlName="admissionDate" matInput [matDatepicker]="picker1" autocomplete="off" [disabled] = "true" >
+                          <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <!-- <mat-datepicker [touchUi]="(isHandset$ | async) ? 'true' : 'false'"  #picker1></mat-datepicker> -->
+                          <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+
+
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('admissionDate').hasError('required')">
+                          Admission Date is required</label>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Gender <sup>*</sup></h4>
+                      <div class="flex gender-row">
+                          <div class="gender-col">
+                              <input type="radio" id="male" value="male" checked formControlName="gender">
+                              <label for="male">Male</label>
+                          </div>
+                          <div class="gender-col">
+                              <input type="radio" id="female" value="female" checked formControlName="gender">
+                              <label for="female">Female</label>
+                          </div>
+                      </div>
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('gender').hasError('required')">
+                          Gender is required</label>
+                  </div>
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio sarl-select-dbrn flex">
+
+
+
+                  <!-- <div class="create-group">
+                      <h4>Student Type <sup>*</sup></h4>
+                      <ngx-select-dropdown formControlName="studentType" [config]="studentTypeConfig"
+                          [options]="options" [multiple]="false">
+                      </ngx-select-dropdown>
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('studentType').hasError('required')">
+                          Select any Student Type</label>
+                  </div> -->
+
+                  <!-- <div class="create-group">
+                  <h4>Medium of Student <sup>*</sup></h4>
+                  <ngx-select-dropdown formControlName="medium" [config]="mediumOfStudentConfig" [options]="(studentManagementSandbox.mediumList$ | async)" [multiple]="false">
+                  </ngx-select-dropdown>
+                  <label class="error-data" *ngIf="submitted && createStudentForm.get('medium').hasError('required')">
+              Select any Medium Name</label>
+              </div> -->
+                  <div class="create-group">
+                      <h4>Medium of Student <sup>*</sup></h4>
+                      <input class="input-group" type="text" formControlName="medium" alphanumeric
+                          numericDataType="alphaNumeric">
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('medium').hasError('required')">
+                          Select any Medium Name</label>
+                  </div>
+
+                  <div class="create-group create-group-fatmot">
+                      <h4>Date of Birth <sup>*</sup></h4>
+                      <!-- <mat-form-field (click)="picker.open()">
+                      <input readonly class="input-group" type="text" [min] = "minDate" [max] = "maxDate1" formControlName="dateOfBirth" matInput [matDatepicker]="picker" autocomplete="off">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+                  </mat-form-field> -->
+
+                      <mat-form-field (click)="picker.open()">
+                          <input class="input-group" type="text" [min]="minDate" [max]="maxDate1"
+                              (focusout)="comapareDate($event, minDate, maxDate1, 'Date Of Birth')"
+                              formControlName="dateOfBirth" matInput [matDatepicker]="picker" autocomplete="off">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <!-- <mat-datepicker [touchUi]="(isHandset$ | async) ? 'true' : 'false'" #picker></mat-datepicker> -->
+                          <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('dateOfBirth').hasError('required')">
+                          DOB is required</label>
+                  </div>
+
+                  <div class="create-group"></div>
+
+
+
+              </div>
+              <!---->
+
+          </div>
+          <!---->
+
+
+          <h3 class="gen-text">Communication</h3>
+
+          <div class="staff-add-card">
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Primary Mobile <sup>*</sup></h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="number"
+                          formControlName="primaryMobileNo" minlength="10" [maxlength]="10">
+                      <p class="notes">Note: Only primary number will receive SMS and calls.</p>
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['primaryMobileNo'].errors?.minlength">Mobile number must
+                          be 10 digits </label>
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('primaryMobileNo').hasError('required')">
+                          Mobile Number is required</label>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Secondary Mobile</h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="number"
+                          formControlName="secondaryMobileNo" minlength="10" [maxlength]="10">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['secondaryMobileNo'].errors?.minlength">Mobile number must
+                          be 10 digits </label>
+
+
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Whatsapp Number</h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="number"
+                          formControlName="whatsappNumber" minlength="10" [maxlength]="10">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['whatsappNumber'].errors?.minlength">Mobile number must be
+                          10 digits </label>
+
+                  </div>
+
+                  <div class="create-group create-group-fatmot">
+                      <h4>Date of Joining <sup>*</sup></h4>
+                      <!-- <mat-form-field (click)="picker2.open()">
+                      <input readonly class="input-group" type="text" [min] = "minDate"  formControlName="dateOfJoining" matInput [matDatepicker]="picker2" autocomplete="off">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field> -->
+
+                      <mat-form-field (click)="picker2.open()">
+                          <input class="input-group" type="text" [min]="minDate"
+                              (focusout)="comapareDate($event, minDate, '0', 'Date Of Joining')"
+                              formControlName="dateOfJoining" matInput [matDatepicker]="picker2" autocomplete="off">
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <!-- <mat-datepicker [touchUi]="(isHandset$ | async) ? 'true' : 'false'" #picker2></mat-datepicker> -->
+                          <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+
+                      <label class="error-data"
+                          *ngIf="submitted && createStudentForm.get('dateOfJoining').hasError('required')">
+                          DOJ is required</label>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Email</h4>
+                      <input class="input-group"  type="text" formControlName="email">
+                      <label class="error-data" *ngIf="createStudentForm.controls['email'].errors?.invalidEmail">
+                          Please Enter Correct Email Format
+                      </label>
+                  </div>
+                  <div class="create-group"></div>
+
+
+              </div>
+              <!---->
+
+          </div>
+          <!---->
+
+          <div class="staff-add-card">
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>EMIS Number</h4>
+                      <input class="input-group" type="text" formControlName="emisNumber" [maxLength]="20">
+                      <!-- <label class="error-data" *ngIf="createStudentForm.controls['emisNumber'].errors?.minlength">EMIS Number maximum 20 digits </label> -->
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Student Aadhaar Number</h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="number"
+                          formControlName="studentAadharNo" [maxlength]="12" minlength="12">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['studentAadharNo'].errors?.minlength">Aadhaar Number must
+                          be 12 digits</label>
+
+                  </div>
+
+                  <div class="create-group">
+                      <h4>RTE Number</h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="number"
+                          formControlName="rteNumber" [maxlength]="20" minlength="20">
+                      <label class="error-data" *ngIf="createStudentForm.controls['rteNumber'].errors?.minlength">RTE
+                          Number must be 20 digits</label>
+
+                  </div>
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Bhavishya Jyothi Number</h4>
+                      <input class="input-group" type="text" formControlName="bhavishyaJyothiNo">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>APL/BPL Card Number</h4>
+                      <input class="input-group" type="text" Decimalnumeric numericType="alphaNumeric"
+                          formControlName="aplNumber" [maxlength]="12" minlength="8"
+                          oninput="this.value = this.value.toUpperCase()">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['aplNumber'].errors?.minlength">Apl/Bpl Number must be
+                          8-12 digits</label>
+
+                  </div>
+
+                  <div class="create-group">
+                      <h4>STS Number</h4>
+                      <input class="input-group" type="text" formControlName="stsNumber">
+                  </div>
+
+              </div>
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>School DISE Code</h4>
+                      <input class="input-group" type="text" formControlName="schoolDiseNumber" [maxlength]="11"
+                          minlength="11" oninput="this.value = this.value.toUpperCase()">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['schoolDiseNumber'].errors?.minlength">School Dise Number
+                          must be 11 digits</label>
+
+                  </div>
+
+              </div>
+
+          </div>
+          <!---->
+
+
+          <div class="staff-add-card">
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Community</h4>
+                      <ngx-select-dropdown formControlName="community" [config]="communityConfig"
+                          [options]="(studentManagementSandbox.communityList$ | async)" [multiple]="false"
+                          (change)="changeCummunity($event)">
+                      </ngx-select-dropdown>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Whether NCC cadet/Boy Scout/Girl Guide</h4>
+                      <div class="flex gender-row">
+                          <div class="gender-col">
+                              <input type="radio" id="ncc" value="1" formControlName="nccScoutGuide">
+                              <label for="ncc">NCC</label>
+                          </div>
+                          <div class="gender-col">
+                              <input type="radio" id="boy" value="2" formControlName="nccScoutGuide">
+                              <label for="boy">Boy Scout</label>
+                          </div>
+                          <div class="gender-col">
+                              <input type="radio" id="girl" value="3" formControlName="nccScoutGuide">
+                              <label for="girl">Girl Guide</label>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Religion</h4>
+                      <ngx-select-dropdown formControlName="religion" [config]="religionConfig"
+                          [options]="(studentManagementSandbox.religionList$ | async)" [multiple]="false">
+                      </ngx-select-dropdown>
+                  </div>
+
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio flex">
+                  <div class="create-group">
+                      <h4>Student belongs to SC or ST ?</h4>
+                      <div class="flex gender-row">
+                          <div class="gender-col">
+                              <input type="radio" id="yes" value="1" formControlName="scSt" disabled
+                                  [checked]="scStudent">
+                              <label for="yes">Yes</label>
+                          </div>
+                          <div class="gender-col">
+                              <input type="radio" id="no" value="2" formControlName="scSt" disabled
+                                  [checked]="nonScStudent">
+                              <label for="no">No</label>
+                          </div>
+                      </div>
+                  </div>
+
+
+
+                  <div class="create-group">
+                      <h4>Community Certificate No</h4>
+                      <input class="input-group" type="text" formControlName="communityCertificateNo">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Nationality</h4>
+                      <input class="input-group" type="text" formControlName="nationality">
+                  </div>
+
+              </div>
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Caste</h4>
+                      <input class="input-group" type="text" formControlName="caste">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Sub caste</h4>
+                      <input class="input-group" type="text" formControlName="subCaste">
+                  </div>
+
+                  <div class="create-group"></div>
+
+              </div>
+
+          </div>
+          <!---->
+
+          <h3 class="gen-text">Address Details</h3>
+
+          <div class="staff-add-card">
+
+              <div class="flex addr-details">
+
+                  <div class="addr-res" style="margin-top: 39px">
+
+                      <h3>Residential Address</h3>
+
+                      <div class="create-group">
+                          <h4>Address</h4>
+                          <!-- <input class="input-group" type="text">
+                  <input class="input-group inp-addr" type="text" formControlName="residentialAddress"> -->
+                          <textarea class="input-group textgroup" formControlName="residentialAddress"
+                              (input)="address($event)" autocomplete="nope"> </textarea>
+
+                      </div>
+
+                      <div class="create-group">
+                          <h4>City / Village / District</h4>
+                          <input class="input-group" type="text" formControlName="residentialCity"
+                              (input)="city($event)" autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>State</h4>
+                          <input class="input-group" type="text" formControlName="residentialState"
+                              (input)="state($event)" autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>Country</h4>
+                          <input class="input-group" type="text" formControlName="residentialCountry"
+                              (input)="country($event)" autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>Pincode</h4>
+                          <input class="input-group" type="text" Decimalnumeric numericType="number"
+                              formControlName="residentialPincode" [maxLength]="6" minlength="6"
+                              (input)="pincode($event)" autocomplete="nope">
+                          <label class="error-data"
+                              *ngIf="createStudentForm.controls['residentialPincode'].errors?.minlength">Pincode must
+                              be 6 digits</label>
+
+                      </div>
+
+                  </div>
+                  <!--left-->
+
+                  <div class="addr-res">
+
+                      <div class="Address">
+                          <div class="form-group ">
+                              <input type="checkbox" [(ngModel)]="isSameAddress" id="same" class="input-group"
+                                  (change)="choosePermanentAddress($event)" [ngModelOptions]="{standalone: true}">
+                              <label for="same">Same as Residential Address</label>
+                          </div>
+                      </div>
+
+                      <h3>Permanent Address</h3>
+
+                      <div class="create-group addr-checkbox">
+                          <h4>Address</h4>
+                          <!-- <input class="input-group" type="text">
+                  <input class="input-group inp-addr" type="text" formControlName="permanentAddress"> -->
+                          <textarea class="input-group textgroup" formControlName="permanentAddress"
+                              autocomplete="nope"> </textarea>
+
+                      </div>
+
+                      <div class="create-group">
+                          <h4>City / Village / District</h4>
+                          <input class="input-group" type="text" formControlName="permanentCity" autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>State</h4>
+                          <input class="input-group" type="text" formControlName="permanentState" autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>Country</h4>
+                          <input class="input-group" type="text" formControlName="permanentCountry"
+                              autocomplete="nope">
+                      </div>
+
+                      <div class="create-group">
+                          <h4>Pincode</h4>
+                          <input class="input-group" type="text" Decimalnumeric numericType="number"
+                              formControlName="permanentPincode" [maxLength]="6" minlength="6" autocomplete="nope">
+                          <label class="error-data"
+                              *ngIf="createStudentForm.controls['permanentPincode'].errors?.minlength">Pincode must be
+                              6 digits</label>
+
+                      </div>
+
+                  </div>
+                  <!--left-->
+
+              </div>
+
+          </div>
+          <!---->
+
+          <h3 class="gen-text">Physical & Identification Details</h3>
+
+          <div class="staff-add-card">
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Blood Group</h4>
+                      <ngx-select-dropdown formControlName="bloodGroup" [config]="bloodGroupConfig"
+                          [options]="(studentManagementSandbox.bloodGroupList$ | async)" [multiple]="false">
+                      </ngx-select-dropdown>
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Height(in cms)</h4>
+                      <input class="input-group" type="text" formControlName="height" [maxlength]="3" Decimalnumeric
+                          numericType="number">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Weight(in Kgs)</h4>
+                      <input class="input-group" type="text" formControlName="weight" [maxlength]="3" Decimalnumeric
+                          numericType="number">
+                  </div>
+              </div>
+              <!---->
+
+              <div class="create-group">
+                  <h4>Personal Mark Identification(a) </h4>
+                  <input class="input-group" type="text" formControlName="markIdentity1">
+              </div>
+
+              <div class="create-group">
+                  <h4>Personal Mark Identification(b)</h4>
+                  <input class="input-group" type="text" formControlName="markIdentity2">
+              </div>
+
+              <div class="create-group">
+                  <h4>Medical Inspection</h4>
+                  <textarea class="input-group textgroup" formControlName="medicalInspection"> </textarea>
+              </div>
+
+
+          </div>
+          <!---->
+
+
+          <h3 class="gen-text">Parent / Guardian Details</h3>
+
+          <div class="staff-add-card">
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Father / Guardian Name</h4>
+                      <input class="input-group" type="text" formControlName="fatherName" alphanumeric
+                          numericDataType="alphaNumeric">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Father / Guardian Occupation</h4>
+                      <input class="input-group" type="text" formControlName="fatherOccupation">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Father / Guardian Annual Income</h4>
+                      <input class="input-group" type="text" formControlName="fatherIncome">
+                  </div>
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio flex">
+
+                  <div class="create-group">
+                      <h4>Father / Guardian Aadhaar Number</h4>
+                      <input class="input-group" type="text" formControlName="fatherAadharNo" [maxlength]="12"
+                          minlength="12" Decimalnumeric numericType="number">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['fatherAadharNo'].errors?.minlength">Aadhaar Number must
+                          be 12 digits</label>
+
+                  </div>
+                  <div class="create-group">
+                      <h4>Mother's Name</h4>
+                      <input class="input-group" type="text" formControlName="motherName" alphanumeric
+                          numericDataType="alphaNumeric">
+                  </div>
+
+                  <div class="create-group">
+                      <h4>Mother's Occupation</h4>
+                      <input class="input-group" type="text" formControlName="motherOccupation">
+                  </div>
+
+              </div>
+              <!---->
+
+              <div class="sarl-select-radio flex">
+
+
+
+                  <div class="create-group">
+                      <h4>Mother's Annual Income</h4>
+                      <input class="input-group" type="text" formControlName="motherIncome">
+                  </div>
+                  <div class="create-group">
+                      <h4>Mother’s Aadhaar Number</h4>
+                      <input class="input-group" type="text" formControlName="motherAadharNo" [maxlength]="12"
+                          minlength="12" Decimalnumeric numericType="number">
+                      <label class="error-data"
+                          *ngIf="createStudentForm.controls['motherAadharNo'].errors?.minlength">Aadhaar Number must
+                          be 12 digits</label>
+                  </div>
+                  <div class="create-group">
+                      <h4>Income Certificate No</h4>
+                      <input class="input-group" type="text" formControlName="incomeCertificateNo">
+                  </div>
+
+              </div>
+              <!---->
+
+          </div>
+          <!---->
+
+          <div class="staff-add-card">
+
+            <div class="sarl-select-radio flex">
+
+                <div class="create-group">
+                    <h4>Physically Challenged</h4>
+                    <input class="input-group" type="text" formControlName="physicallychalleged">
+                </div>
+
+                <div class="create-group">
+                    <h4>Student Medical Condition</h4>
+                    <input class="input-group" type="text" formControlName="medicalcondition">
+                </div>
+
+                <div class="create-group">
+                    <h4>Acheivements</h4>
+                    <input class="input-group" type="text" formControlName="acheivements">
+                </div>
+
+                <div class="create-group">
+                    <h4>Hobbies</h4>
+                    <input class="input-group" type="text" formControlName="hobbies">
+                </div>
+
+                <div class="create-group">
+                    <h4>Vaccination Details</h4>
+                    <input class="input-group" type="text" formControlName="vaccination">
+                </div>
+
+            </div>
+            <!---->
+
+         </div>
+          <!---->
+
+                
+            <h3 class="gen-text">Student Documents Upload</h3>
+
+            <div class="staff-add-card flex sdu-row">
+
+                <!-- <div class="create-group">
+                    <h4>Browse and upload documents</h4>
+                    <div class="input-file flex">
+                        <h3 *ngIf="isDefault === false">{{documentName}}</h3>
+                        <div class="file-upld" *ngIf="isDefault === true">
+                            <input type="file" name="userDoc" (change)="uploadDocument($event)" #filePathDocument style="display: none">
+                            <a href="javascript: void(0)" (click)="clickDocument()">Browse</a>
+                        </div>
+                        <div class="file-upld" *ngIf="isDefault === false">
+                            <input type="file" name="userDoc" (change)="uploadDocument($event)" #filePathDocument style="display: none">
+                            <a href="javascript: void(0)" (click)="uploadDocumentApi()">Upload</a>
+                        </div>
+                    </div>
+                    <h4 class="notification">Click Browse & Click Upload to show the student files(s)</h4>
+                </div> -->
+                <div class="upload-documents" *ngIf="(studentManagementSandbox.uploadedDocument$ | async)?.length > 0">
+                    <h4>Uploaded documents</h4>
+                    <div class="ud-row" *ngFor="let list of UploadDocumentFiles; let i = index" >
+                        {{i + 1}}. <span (click)="downloadDoc(list.documentName)"  *ngIf ="list.isViewChange == 0">
+                            <a target="blank" [href]="fileUrl + '/file-report/document-download/' + list.documentName">{{list.documentDisplayName}}</a>
+                        </span>
+                        <span (click)="downloadDoc(list.documentName)"  *ngIf ="list.isViewChange == 1">
+                            <a target="blank" [href]="list.documentPath">{{list.documentDisplayName}}</a>
+                        </span>
+                        <!-- <a href="javascript:void(0)" (click)="removeDocument(list)"><img src="assets/imgs/rubbish-bin.svg"> </a> -->
+
+                    </div>
+                </div>
+                <div class="upload-documents" *ngIf="(studentManagementSandbox.uploadedDocument$ | async)?.length == 0">
+                    <h4 style="color: red;">No documents Upload</h4>
+                </div>
+
+            </div>
+
+
+          <!---->
+
+          <div class="flex staff-add-btn" *ngIf="(studentManagementSandbox.uploadedDocument$ | async) as document  ">
+              <app-page-loader *ngIf="(studentManagementSandbox.addStudentLoading$ | async) || 
+          (studentManagementSandbox.editStudentLoading$ | async)"></app-page-loader>
+              <button type="submit" class="ripple submit" *ngIf="!((studentManagementSandbox.addStudentLoading$ | async) || 
+          (studentManagementSandbox.editStudentLoading$ | async))"
+                  (click)="onSubmit(createStudentForm.value, document)">Submit</button>
+              <button (click)="resetStudent()" class="ripple">Reset</button>
+              <!-- <button type="button" printSectionId="student" ngxPrint class="ripple">Print</button> -->
+          </div>
+
+          <div class="flex staff-add-btn" *ngIf="!(studentManagementSandbox.uploadedDocument$ | async) as document">
+              <app-page-loader *ngIf="(studentManagementSandbox.addStudentLoading$ | async) || 
+          (studentManagementSandbox.editStudentLoading$ | async)"></app-page-loader>
+              <button type="submit" class="ripple submit" *ngIf="!((studentManagementSandbox.addStudentLoading$ | async) || 
+          (studentManagementSandbox.editStudentLoading$ | async))"
+                  (click)="onSubmit(createStudentForm.value, document)">Submit</button>
+              <button (click)="resetStudent()" class="ripple">Reset</button>
+              <!-- <button type="button" printSectionId="student" ngxPrint class="ripple">Print</button> -->
+          </div>
+
+      </form>
+
+  <!-- </div>
+</div> -->

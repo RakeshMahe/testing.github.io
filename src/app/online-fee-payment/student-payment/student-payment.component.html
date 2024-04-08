@@ -1,0 +1,937 @@
+<div class="grid " style="
+    width: 100%;
+    padding: 5px 5px;
+" *ngIf="studentDetails">
+  <div class="" style="
+    text-align: center;
+    width: 100%;
+    color: #ef4806;
+    font-size: 13px;
+"><label> {{studentDetails.institude_name}} </label></div>
+  <div style="width: 100%;display: flex;">
+    <div style="width: 100%">
+      <div class="" style="display: flex;
+    border: 1px solid #ddd;
+    align-items: center;
+">
+        <div class="header" style="
+    width: 40%;
+    font-weight: bold;
+    border-right: 1px solid #ddd;
+    padding: 0px 5px;
+"><span> Student Name </span></div>
+        <div class="data" style="
+padding: 0px 5px;
+width: 70%;
+"><span> {{studentDetails.student_name}} </span></div>
+      </div>
+      <div class="" style="display: flex;
+  border: 1px solid #ddd;
+  align-items: center;
+">
+        <div class="header" style="
+  width: 40%;
+  font-weight: bold;
+  border-right: 1px solid #ddd;
+  padding: 0px 5px;
+"><span> Class / Section </span></div>
+        <div class="data" style="
+padding: 0px 5px;
+width: 70%;
+"><span> {{studentDetails.class_name}}/{{studentDetails.section_name}}</span></div>
+      </div>
+      <div class="" style="display: flex;
+border: 1px solid #ddd;
+align-items: center;
+">
+        <div class="header" style="
+width: 40%;
+font-weight: bold;
+border-right: 1px solid #ddd;
+padding: 0px 5px;
+"><span> Admission No </span></div>
+        <div class="data" style="
+padding: 0px 5px;
+width: 70%;
+"><span> {{studentDetails.admission_no}} </span></div>
+      </div>
+    </div>
+    <div style="padding-left: 5px;">
+      <img style="width: auto; max-width: 100%; max-height: 50px; height: 50px;" src="{{studentDetails.student_photo}}">
+    </div>
+  </div>
+
+</div>
+
+<div id="exTab1" class="">
+  <ul class="nav nav-pills">
+    <li class="active navList">
+      <a href="#1a" data-toggle="tab" (click)="feeDetails()">Fee Details</a>
+    </li>
+    <li class="navList"><a href="#2a" data-toggle="tab" (click)="invoiceDetails()">Receipt</a>
+    </li>
+  </ul>
+
+  <div class="tab-content clearfix">
+    <div class="tab-pane active" id="1a">
+      <!-- height: 450px;  -->
+      <div style="overflow-y: scroll; margin-top: 3%; margin-bottom: 3%;" *ngIf="isLoading == 0">
+        <h3 style="text-align: center" *ngIf="carryOverFeeDetails && carryOverFeeDetails.length > 0">
+          Previous Year Pending Fees
+        </h3>
+        <!-- <section class="example-section" *ngFor="let fee of carryOverFeeDetails; let o = index">
+          <mat-accordion displayMode="flat">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header style="font-weight: bold">
+                <div style="width: 10%">
+                  <mat-checkbox [(ngModel)]="fee.completed" (ngModelChange)="
+                  updateAllComplete(n, o, $event, 5, fee, '')
+                ">
+                  </mat-checkbox>
+      
+                </div>
+                <div style="width: 65%">
+                  <mat-panel-title>
+                    <span>{{ fee.feeGroupTypeName }} -> <span class="feeCategoryLabel"> {{fee.feeCategoryName}} </span>
+                    </span>
+                  </mat-panel-title>
+                </div>
+                <div style="width: 35%; text-align: end; padding-right: 10px">
+                  <span class="downloadDetails" *ngIf="fee.AmountToBePaid != 0">
+                    {{ fee.AmountToBePaid }}
+                  </span>
+                  <span class="downloadDetails" *ngIf="fee.AmountToBePaid == 0">
+                    <span *ngIf="fee.inProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                    <span *ngIf="fee.inProgress != 0" style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                  </span>
+                </div>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <div class="row flex">
+                  <div style="width: 80%">
+                    Total Fees for {{ fee.feeGroupTypeName }}
+                  </div>
+                  <div style="width: 20%; text-align: end">{{ fee.FeeAmount }}</div>
+      
+                  <div style="width: 80%">Total Pending</div>
+                  <div style="width: 20%; text-align: end">
+                    {{ fee.PendingCarriedOver }}
+                  </div>
+      
+                  <div style="width: 80%">Actual Paid</div>
+                  <div style="width: 20%; text-align: end">{{ fee.paidAmount }}</div>
+      
+                  <div style="width: 80%">Discount Availed</div>
+                  <div style="width: 20%; text-align: end">
+                    {{ fee.discountAmount }}
+                  </div>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </section> -->
+
+        <div class="option" *ngFor="let fee of carryOverFeeDetails; let o = index">
+          <input type="checkbox" id="{{fee.id + '_' + o}}" class="toggle" />
+          <label class="title" for="{{fee.id + '_' + o}}" (click)="showMoreTermFee(o)">
+            <div class="flex" style="width: 100%;">
+              <div style="width: 5%;margin-top: 5px;">
+                <mat-checkbox [(ngModel)]="fee.completed" (ngModelChange)="
+                updateAllComplete(n, o, $event, 5, fee, '')
+              ">
+                </mat-checkbox>
+              </div>
+              <div style="width: 65%;display: flex;align-items: center;">
+                <mat-panel-title style="margin-left: 15px;">
+                  <span class="fee-header">{{ fee.feeGroupTypeName }} -> <span class="feeCategoryLabel">
+                      {{fee.feeCategoryName}} </span> </span>
+                </mat-panel-title>
+              </div>
+              <div style="width: 30%; text-align: end; padding-right: 10px;">
+                <span class="downloadDetails" *ngIf="fee.AmountToBePaid != 0">
+                  {{ fee.AmountToBePaid }}
+                </span>
+                <span class="termFeePaidDetails" *ngIf="fee.AmountToBePaid == 0">
+                  <span *ngIf="fee.inProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                  <span *ngIf="fee.inProgress != 0" style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                </span>
+              </div>
+            </div>
+          </label>
+          <div class="content">
+            <ng-container>
+              <div style="border: 1px solid #ececec;
+              padding: 10px;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              border-radius: 6px;font-size: 12px;">
+
+                <div class="">
+                  <div class="flex">
+                    <div style="width: 80%">Total Fees for {{ fee.feeGroupTypeName }}</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ fee.FeeAmount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Total Pending</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ fee.PendingCarriedOver }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Actual Paid</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ fee.paidAmount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%" *ngIf="fee.discountAmount > 0">Actual Paid</div>
+                    <div style="width: 20%; text-align: end" *ngIf="fee.discountAmount > 0">
+                      {{ fee.discountAmount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 10px; text-align: center" *ngIf="termFeeDetails && termFeeDetails.length != 0">
+          Term Fees
+        </h3>
+
+        <div class="option" *ngFor="let list of termFeeDetails; let m = index">
+          <input type="checkbox" id="{{list.TermGroupTypeId + + m}}" class="toggle" />
+          <label class="title" for="{{list.TermGroupTypeId + m}}" (click)="showMoreTermFee(m)">
+            <div class="flex acc-title">
+              <label>{{ list.TermName }}</label>
+            </div>
+          </label>
+          <div class="content">
+            <ng-container *ngFor="let fee of list.FeesDetails; let f = index">
+              <div style="border: 1px solid #ececec;
+              padding: 10px;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              border-radius: 6px;font-size: 12px;">
+
+                <div class="flex acc-title" style="padding-bottom: 5px;">
+                  <div style="width: 10%">
+                    <mat-checkbox [disabled]="fee.isDisabled" [(ngModel)]="fee.completed" (ngModelChange)="
+                        updateAllComplete(m, f, $event, 1, list, fee)
+                      ">
+                    </mat-checkbox>
+                  </div>
+                  <div class="tgl-qa" style="width: 70%">
+                    <h4 style="font-weight: 600 !important;">{{ fee.FeeName }} </h4>
+                  </div>
+                  <div class="tgl-qa" style="width: 20%;text-align: end;">
+                    <h4 style="font-weight: 600 !important;" *ngIf="fee.AmountToBePaid != 0"> {{ fee.AmountToBePaid }}
+                    </h4>
+                    <span class="termFeePaidDetails" *ngIf="fee.AmountToBePaid == 0">
+                      <span *ngIf="fee.InProgress != 0"
+                        style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                      <span *ngIf="fee.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="" style="width: 100%;border-top: 1px solid #ececec;padding-top: 5px">
+                  <div class="flex">
+                    <div style="width: 80%">Total Amount</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ fee.FeeAmount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Actual Paid</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ fee.ActualPaid }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%" *ngIf="fee.DiscountAvailed > 0">Discount Availed</div>
+                    <div style="width: 20%; text-align: end" *ngIf="fee.DiscountAvailed > 0">
+                      {{ fee.DiscountAvailed }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- <section class="example-section" *ngFor="let list of termFeeDetails; let m = index">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header style="font-weight: bold">
+                {{ list.TermName }}
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent></ng-template>
+              <div class="panel-content">
+                <mat-accordion displayMode="flat">
+                  <div *ngFor="let fee of list.FeesDetails; let f = index">
+                    <mat-expansion-panel style="background-color: rgb(247 247 247)">
+                      <mat-expansion-panel-header [ngClass]="{ already_paid: fee.AmountToBePaid == 0 }">
+                        <div style="width: 10%">
+                          <mat-checkbox [disabled]="fee.isDisabled" [(ngModel)]="fee.completed" (ngModelChange)="
+                              updateAllComplete(m, f, $event, 1, list, fee)
+                            ">
+                          </mat-checkbox>
+                        </div>
+                        <div style="width: 65%">
+                          <mat-panel-title>
+                            <span>{{ fee.FeeName }} </span>
+                          </mat-panel-title>
+                        </div>
+                        <div style="width: 35%; text-align: end; padding-right: 10px">
+                          <span class="downloadDetails" *ngIf="fee.AmountToBePaid != 0">
+                            {{ fee.AmountToBePaid }}
+                          </span>
+                          <span class="downloadDetails" *ngIf="fee.AmountToBePaid == 0">
+                            <span *ngIf="fee.InProgress != 0"
+                              style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                            <span *ngIf="fee.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                          </span>
+                        </div>
+                      </mat-expansion-panel-header>
+                      <ng-template matExpansionPanelContent>
+                        <div class="row flex">
+                          <div style="width: 80%">Total Amount</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ fee.FeeAmount }}
+                          </div>
+      
+                          <div style="width: 80%">Actual Paid</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ fee.ActualPaid }}
+                          </div>
+      
+                          <div style="width: 80%">Discount Availed</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ fee.DiscountAvailed }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </mat-expansion-panel>
+                  </div>
+                </mat-accordion>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </section> -->
+
+        <h3 style="text-align: center" *ngIf="otherFeeDetails && otherFeeDetails.length > 0">
+          Other Fees
+        </h3>
+        <!-- <section class="example-section" *ngFor="let others of otherFeeDetails; let n = index">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header style="font-weight: bold" [ngClass]="{ already_paid: others.AmountToBePaid == 0 }">
+                <div style="width: 10%">
+                  <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 2)"
+                    [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 2)">
+                  </mat-checkbox>
+                </div>
+                <div style="width: 65%">
+                  <mat-panel-title>
+                    <span>{{ others.FeeName }} </span>
+                  </mat-panel-title>
+                </div>
+                <div style="width: 35%; text-align: end; padding-right: 10px">
+                  <span class="downloadDetails" *ngIf="others.AmountToBePaid != 0">
+                    {{ others.AmountToBePaid }}
+                  </span>
+                  <span class="downloadDetails" *ngIf="others.AmountToBePaid == 0">
+                    <span *ngIf="others.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                    <span *ngIf="others.InProgress != 0" style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                  </span>
+                </div>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent></ng-template>
+              <div class="panel-content">
+                <mat-accordion displayMode="flat">
+                  <div *ngFor="let month of others.MonthDetails; let o = index">
+                    <mat-expansion-panel style="background-color: rgb(247 247 247)">
+                      <mat-expansion-panel-header [ngClass]="{ already_paid: month.AmountToBePaid == 0 }">
+                        <div style="width: 10%">
+                          <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                              updateAllComplete(n, o, $event, 2, others, month)
+                            ">
+                          </mat-checkbox>
+                        </div>
+                        <div style="width: 65%">
+                          <mat-panel-title>
+                            <span>{{ month.MonthName }} </span>
+                          </mat-panel-title>
+                        </div>
+                        <div style="width: 35%; text-align: end; padding-right: 10px">
+                          <span class="downloadDetails" *ngIf="month.AmountToBePaid != 0">
+                            {{ month.AmountPerMonth }}
+                          </span>
+                          <span class="downloadDetails" *ngIf="month.completed && month.AmountToBePaid === 0">
+                            <span *ngIf="month.InProgress != 0"
+                              style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                            <span *ngIf="month.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                          </span>
+                        </div>
+                      </mat-expansion-panel-header>
+                      <ng-template matExpansionPanelContent>
+                        <div class="row flex">
+                          <div style="width: 80%">Amount per month</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.AmountPerMonth }}
+                          </div>
+      
+                          <div style="width: 80%">Actual Paid</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.Paid }}
+                          </div>
+      
+                          <div style="width: 80%" *ngIf="month.DiscountAmount > 0">Discount Availed</div>
+                          <div style="width: 20%; text-align: end" *ngIf="month.DiscountAmount > 0">
+                            {{ month.DiscountAmount }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </mat-expansion-panel>
+                  </div>
+                </mat-accordion>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </section> -->
+
+        <div class="option" *ngFor="let others of otherFeeDetails; let n = index">
+          <input type="checkbox" id="{{others.TermGroupTypeId + + n}}" class="toggle" />
+          <label class="title" for="{{others.TermGroupTypeId + n}}" (click)="showMoreTermFee(n)">
+            <div class="flex" style="width: 100%;">
+              <div style="width: 5%;margin-top: 5px;">
+                <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 2)"
+                  [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 2)">
+                </mat-checkbox>
+              </div>
+              <div style="width: 65%;display: flex;align-items: center;">
+                <mat-panel-title style="margin-left: 15px;">
+                  <span class="fee-header">{{ others.FeeName }} </span>
+                </mat-panel-title>
+              </div>
+              <div style="width: 30%; text-align: end; padding-right: 10px;">
+                <span class="downloadDetails" *ngIf="others.AmountToBePaid != 0">
+                  {{ others.AmountToBePaid }}
+                </span>
+                <span class="termFeePaidDetails" *ngIf="others.AmountToBePaid == 0">
+                  <span *ngIf="others.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                  <span *ngIf="others.InProgress != 0"
+                    style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                </span>
+              </div>
+            </div>
+          </label>
+          <div class="content">
+            <ng-container *ngFor="let month of others.MonthDetails; let o = index">
+              <div style="border: 1px solid #ececec;
+              padding: 10px;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              border-radius: 6px;font-size: 12px;">
+
+                <div class="flex acc-title" style="padding-bottom: 5px;">
+                  <div>
+                    <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                        updateAllComplete(n, o, $event, 2, others, month)
+                      ">
+                    </mat-checkbox>
+                  </div>
+                  <div style="width: 65%">
+                    <mat-panel-title>
+                      <span class="downloadDetails">{{ month.MonthName }} </span>
+                    </mat-panel-title>
+                  </div>
+                  <div style="width: 25%; text-align: end;">
+                    <span class="downloadDetails" *ngIf="month.AmountToBePaid != 0">
+                      {{ month.AmountPerMonth }}
+                    </span>
+                    <span class="termFeePaidDetails" *ngIf="month.completed && month.AmountToBePaid === 0">
+                      <span *ngIf="month.InProgress != 0"
+                        style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                      <span *ngIf="month.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="" style="width: 100%;border-top: 1px solid #ececec;padding-top: 5px">
+                  <div class="flex">
+                    <div style="width: 80%">Amount per month</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.AmountPerMonth }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Actual Paid</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.Paid }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%" *ngIf="month.DiscountAmount > 0">Discount Availed</div>
+                    <div style="width: 20%; text-align: end" *ngIf="month.DiscountAmount > 0">
+                      {{ month.DiscountAmount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <h3 style="text-align: center" *ngIf="transportFeeDetails && transportFeeDetails.length > 0">
+          Transport Fees
+        </h3>
+        <!-- <section class="example-section" *ngFor="let others of transportFeeDetails; let n = index">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header style="font-weight: bold" [ngClass]="{ already_paid: others.pendingAmount == 0 }">
+                <div style="width: 10%">
+                  <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 3)"
+                    [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 3)">
+                  </mat-checkbox>
+                </div>
+                <div style="width: 65%">
+                  <mat-panel-title>
+                    <span>{{ others.FeeName }} </span>
+                  </mat-panel-title>
+                </div>
+                <div style="width: 35%; text-align: end; padding-right: 10px">
+                  <span class="downloadDetails" *ngIf="others.pendingAmount != 0">
+                    {{ others.pendingAmount }}
+                  </span>
+                  <span class="downloadDetails" *ngIf="others.pendingAmount == 0">
+                    <span *ngIf="others.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                    <span *ngIf="others.InProgress != 0" style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                  </span>
+                </div>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+      
+              </ng-template>
+              <div class="panel-content">
+      
+                <div class="row flex">
+                  <div style="width: 30%">Route</div>
+                  <div style="width: 70%; text-align: end">{{ others.route_name }}</div>
+      
+                  <div style="width: 30%">Stop</div>
+                  <div style="width: 70%; text-align: end">{{ others.stop_name }}</div>
+                </div>
+      
+                <mat-accordion displayMode="flat">
+                  <div *ngFor="let month of others.busMonthDetails; let o = index">
+                    <mat-expansion-panel style="background-color: rgb(247 247 247)">
+                      <mat-expansion-panel-header [ngClass]="{ already_paid: month.pending_amount == 0 }">
+                        <div style="width: 10%">
+                          <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                              updateAllComplete(n, o, $event, 3, others, month)
+                            ">
+                          </mat-checkbox>
+                        </div>
+                        <div style="width: 65%">
+                          <mat-panel-title>
+                            <span>{{ month.month_name }} </span>
+                          </mat-panel-title>
+                        </div>
+                        <div style="width: 35%; text-align: end; padding-right: 10px">
+                          <span class="downloadDetails" *ngIf="month.pending_amount != 0">
+                            {{ month.m_feeamount }}
+                          </span>
+                          <span class="downloadDetails" *ngIf="month.completed && month.pending_amount === 0">
+                            <span *ngIf="month.InProgress != 0"
+                              style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                            <span *ngIf="month.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                          </span>
+                        </div>
+                      </mat-expansion-panel-header>
+                      <ng-template matExpansionPanelContent>
+                        <div class="row flex">
+                          <div style="width: 80%">Amount per month</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.m_feeamount }}
+                          </div>
+      
+                          <div style="width: 80%">Actual Paid</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.paid_amount }}
+                          </div>
+      
+                          <div style="width: 80%">Discount Availed</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.discount_amount }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </mat-expansion-panel>
+                  </div>
+                </mat-accordion>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </section> -->
+
+        <div class="option" *ngFor="let others of transportFeeDetails; let n = index">
+          <input type="checkbox" id="{{others.route_id + '_' + others.stop_id + '_' + n}}" class="toggle" />
+          <label class="title" for="{{others.route_id + '_' + others.stop_id + '_' + n}}" (click)="showMoreTermFee(n)">
+            <div class="flex" style="width: 100%;">
+              <div style="width: 5%;margin-top: 5px;">
+                <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 3)"
+                  [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 3)">
+                </mat-checkbox>
+              </div>
+              <div style="width: 65%;display: flex;align-items: center;">
+                <mat-panel-title style="margin-left: 15px;">
+                  <span class="fee-header">{{ others.FeeName }} </span>
+                </mat-panel-title>
+              </div>
+              <div style="width: 30%; text-align: end; padding-right: 10px;">
+                <span class="downloadDetails" *ngIf="others.pendingAmount != 0">
+                  {{ others.pendingAmount }}
+                </span>
+                <span class="termFeePaidDetails" *ngIf="others.pendingAmount == 0">
+                  <span *ngIf="others.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                  <span *ngIf="others.InProgress != 0"
+                    style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                </span>
+              </div>
+            </div>
+          </label>
+          <div class="content">
+            <ng-container>
+              <div class="row flex" style="margin: 0px 2px;border: 1px solid #ececec;padding: 0px 3px;font-size: 12px;">
+                <div style="width: 30%; font-size: 11px;font-weight: bolder;border-right: 1px solid #ececec;">Route
+                </div>
+                <div style="width: 70%; font-size: 11px;text-align: end;font-weight: 600;">{{ others.route_name }}</div>
+
+                <div
+                  style="width: 30%; font-size: 11px;font-weight: bolder;border-top: 1px solid #ececec;border-right: 1px solid #ececec;">
+                  Stop</div>
+                <div
+                  style="width: 70%; font-size: 11px;text-align: end;font-weight: 600;border-top: 1px solid #ececec;">{{
+                  others.stop_name }}</div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngFor="let month of others.busMonthDetails; let o = index">
+              <div style="border: 1px solid #ececec;
+              padding: 10px;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              border-radius: 6px;">
+
+                <div class="flex acc-title" style="padding-bottom: 5px;">
+                  <div>
+                    <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                    updateAllComplete(n, o, $event, 3, others, month)
+                  ">
+                    </mat-checkbox>
+                  </div>
+                  <div style="width: 65%">
+                    <mat-panel-title>
+                      <span class="downloadDetails">{{ month.month_name }} </span>
+                    </mat-panel-title>
+                  </div>
+                  <div style="width: 25%; text-align: end;">
+                    <span class="downloadDetails" *ngIf="month.pending_amount != 0">
+                      {{ month.pending_amount }}
+                    </span>
+                    <span class="termFeePaidDetails" *ngIf="month.completed && month.pending_amount == 0">
+                      <span *ngIf="month.InProgress != 0"
+                        style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                      <span *ngIf="month.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="" style="width: 100%;border-top: 1px solid #ececec;padding-top: 5px">
+                  <div class="flex">
+                    <div style="width: 80%">Amount per month</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.m_feeamount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Actual Paid</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.paid_amount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%" *ngIf="month.discount_amount > 0">Discount Availed</div>
+                    <div style="width: 20%; text-align: end" *ngIf="month.discount_amount > 0">
+                      {{ month.discount_amount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <h3 style="text-align: center" *ngIf="hostelFeeDetails && hostelFeeDetails.length > 0">
+          Hostel Fees
+        </h3>
+        <!-- <section class="example-section" *ngFor="let others of hostelFeeDetails; let n = index">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header style="font-weight: bold" [ngClass]="{ already_paid: others.pendingAmount == 0 }">
+                <div style="width: 10%">
+                  <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 4)"
+                    [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 4)">
+                  </mat-checkbox>
+                </div>
+                <div style="width: 65%">
+                  <mat-panel-title>
+                    <span>{{ others.hostel_name }} </span>
+                  </mat-panel-title>
+                </div>
+                <div style="width: 35%; text-align: end; padding-right: 10px">
+                  <span class="downloadDetails" *ngIf="others.pendingAmount != 0">
+                    {{ others.pendingAmount }}
+                  </span>
+                  <span class="downloadDetails" *ngIf="others.pendingAmount == 0">
+                    <span *ngIf="others.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                    <span *ngIf="others.InProgress != 0" style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                  </span>
+                </div>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+      
+              </ng-template>
+              <div class="panel-content">
+      
+                <div class="row flex">
+                  <div style="width: 30%">Room No</div>
+                  <div style="width: 70%; text-align: end">{{ others.room_no }}</div>
+      
+                  <div style="width: 30%">Bed No</div>
+                  <div style="width: 70%; text-align: end">{{ others.bed_no }}</div>
+                </div>
+      
+                <mat-accordion displayMode="flat">
+                  <div *ngFor="let month of others.monthWiseFee; let o = index">
+                    <mat-expansion-panel style="background-color: rgb(247 247 247)">
+                      <mat-expansion-panel-header [ngClass]="{ already_paid: month.pendingAmount == 0 }">
+                        <div style="width: 10%">
+                          <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                              updateAllComplete(n, o, $event, 4, others, month)
+                            ">
+                          </mat-checkbox>
+                        </div>
+                        <div style="width: 65%">
+                          <mat-panel-title>
+                            <span>{{ month.monthName }} </span>
+                          </mat-panel-title>
+                        </div>
+                        <div style="width: 35%; text-align: end; padding-right: 10px">
+                          <span class="downloadDetails" *ngIf="month.pendingAmount != 0">
+                            {{ month.actualAmount }}
+                          </span>
+                          <span class="downloadDetails" *ngIf="month.completed && month.pendingAmount == 0">
+                            <span *ngIf="month.InProgress != 0"
+                              style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                            <span *ngIf="month.InProgress == 0" style="color: rgb(32 174 74); font-weight: bold">Paid</span>
+                          </span>
+                        </div>
+                      </mat-expansion-panel-header>
+                      <ng-template matExpansionPanelContent>
+                        <div class="row flex">
+                          <div style="width: 80%">Amount per month</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.actualAmount }}
+                          </div>
+      
+                          <div style="width: 80%">Actual Paid</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.paidAmount }}
+                          </div>
+      
+                          <div style="width: 80%">Discount Availed</div>
+                          <div style="width: 20%; text-align: end">
+                            {{ month.discountAmount }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </mat-expansion-panel>
+                  </div>
+                </mat-accordion>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </section> -->
+
+        <div class="option" *ngFor="let others of hostelFeeDetails; let n = index">
+          <input type="checkbox" id="{{others.room_no + '_' + others.bed_no + '_' + n}}" class="toggle" />
+          <label class="title" for="{{others.room_no + '_' + others.bed_no + '_' + n}}" (click)="showMoreTermFee(n)">
+            <div class="flex" style="width: 100%;">
+              <div style="width: 5%;margin-top: 5px;">
+                <mat-checkbox class="example-margin" [checked]="others.completed" [indeterminate]="someComplete(n, 4)"
+                  [disabled]="others.isDisabled" (change)="setAll($event.checked, n, 4)">
+                </mat-checkbox>
+              </div>
+              <div style="width: 65%;display: flex;align-items: center;">
+                <mat-panel-title style="margin-left: 15px;">
+                  <span class="fee-header">{{ others.hostel_name }} </span>
+                </mat-panel-title>
+              </div>
+              <div style="width: 30%; text-align: end; padding-right: 10px;">
+                <span class="downloadDetails" *ngIf="others.pendingAmount != 0">
+                  {{ others.pendingAmount }}
+                </span>
+                <span class="termFeePaidDetails" *ngIf="others.pendingAmount == 0">
+                  <span *ngIf="others.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                  <span *ngIf="others.InProgress != 0"
+                    style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                </span>
+              </div>
+            </div>
+          </label>
+          <div class="content">
+            <ng-container>
+              <div class="row flex" style="margin: 0px 2px;border: 1px solid #ececec;padding: 0px 3px;font-size: 12px;">
+                <div style="width: 30%; font-size: 11px;font-weight: bolder;border-right: 1px solid #ececec;">Room No
+                </div>
+                <div style="width: 70%; font-size: 11px;text-align: end;font-weight: 600;">{{ others.room_no }}</div>
+
+                <div
+                  style="width: 30%; font-size: 11px;font-weight: bolder;border-top: 1px solid #ececec;border-right: 1px solid #ececec;">
+                  Bed No</div>
+                <div
+                  style="width: 70%; font-size: 11px;text-align: end;font-weight: 600;border-top: 1px solid #ececec;">{{
+                  others.bed_no }}</div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngFor="let month of others.monthWiseFee; let o = index">
+              <div style="border: 1px solid #ececec;
+              padding: 10px;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              border-radius: 6px;">
+
+                <div class="flex acc-title" style="padding-bottom: 5px;">
+                  <div>
+                    <mat-checkbox [(ngModel)]="month.completed" [disabled]="month.isDisabled" (ngModelChange)="
+                    updateAllComplete(n, o, $event, 4, others, month)
+                  ">
+                    </mat-checkbox>
+                  </div>
+                  <div style="width: 65%">
+                    <mat-panel-title>
+                      <span class="downloadDetails">{{ month.monthName }} </span>
+                    </mat-panel-title>
+                  </div>
+                  <div style="width: 25%; text-align: end;">
+                    <span class="downloadDetails" *ngIf="month.pendingAmount != 0">
+                      {{ month.actualAmount }}
+                    </span>
+                    <span class="termFeePaidDetails" *ngIf="month.completed && month.pendingAmount == 0">
+                      <span *ngIf="month.InProgress != 0"
+                        style="color: rgb(255 97 21); font-weight: bold">InProgress</span>
+                      <span *ngIf="month.InProgress == 0" style="color: white; font-weight: bold">PAID</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="" style="width: 100%;border-top: 1px solid #ececec;padding-top: 5px">
+                  <div class="flex">
+                    <div style="width: 80%">Amount per month</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.actualAmount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%">Actual Paid</div>
+                    <div style="width: 20%; text-align: end">
+                      {{ month.paidAmount }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div style="width: 80%" *ngIf="month.discount_amount > 0">Discount Availed</div>
+                    <div style="width: 20%; text-align: end" *ngIf="month.discount_amount > 0">
+                      {{ month.discountAmount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="loader-content" *ngIf="isLoading == 1">
+        <app-page-loader></app-page-loader>
+        <br>
+        <label>Retrieving fee details...</label>
+      </div>
+
+      <footer style="background-color: white !important; position: initial !important">
+        <div *ngIf="status == 1" class="col-sm-12 text-center">
+          <a class="payment-btn" (click)="onSubmitPayment()" *ngIf="is_loading == 0">
+            Proceed to payment
+          </a>
+          <div *ngIf="is_loading == 1">
+            <app-page-loader></app-page-loader>
+          </div>
+        </div>
+
+        <div *ngIf="status != 1" style="color: crimson; font-weight: bold" class="col-sm-12 text-center">
+          <label>
+            {{ message }}
+          </label>
+        </div>
+
+        <div class="subject-info">
+          <img src="assets/imgs/info.svg" />
+          <span>
+            Note: Payment will be reflected within 48hours after making online
+            payment!</span>
+        </div>
+      </footer>
+    </div>
+    <div class="tab-pane" id="2a">
+      <div class="table-responsive pre-adm-tbl">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Receipt No</th>
+              <th style="text-align: center;">Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of (onlineFeePaymentSandbox.StudentReceiptDetails$ | async)?.data">
+              <tr>
+                <td>{{item.invoiceNo}}
+                </td>
+                <td style="text-align: center;">{{item.invoiceAmount}}
+                  <br>
+                  <button class="download-btn" (click)="downloadInvoice(item)">Receipt</button>
+                </td>
+                <td>{{item.invoiceDate}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div class="no-item"
+          *ngIf="!(onlineFeePaymentSandbox.StudentReceiptDetailsLoading$ | async) && (onlineFeePaymentSandbox.StudentReceiptDetails$ | async)?.data?.length === 0">
+          No Activity Found
+        </div>
+        <div class="no-item" *ngIf="(onlineFeePaymentSandbox.StudentReceiptDetailsLoading$ | async)">
+          <app-page-loader></app-page-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

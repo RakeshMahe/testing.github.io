@@ -1,0 +1,120 @@
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+
+// Theme variables, must be included before the libraries to allow overriding defaults
+@import "theme/theme-variables";
+
+// 3rd party libraries
+@import "~material-design-icons-iconfont/dist/fonts/material-icons.css";
+
+// Angular Material custom theme
+// The mixins below must be included once so we separated them from the variables
+@import "~@angular/material/theming";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+// Theme customization
+@import "theme/theme";
+
+body {
+    font-weight: normal;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    padding: 1em;
+    padding-top: 75px;
+}
+
+.mat-table-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    min-width: 300px;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.mat-header-cell.mat-sort-header-sorted {
+    color: black;
+}
+
+.mat-row {
+    min-height: 0px !important;
+}
+
+.mat-table-header {
+    min-height: 56px !important;
+    padding: 8px 24px 0 !important;
+}
+
+.mat-toolbar-single-row {
+    height: 56px!important;
+}
+
+.fr {
+    float: right;
+}
+
+.fl {
+    float: left;
+}
+
+.mat-cell,
+.mat-header-cell {
+    flex: 1;
+    // min-height: 48px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.mat-header-row {
+    min-height: 25px !important;
+}
+
+.mat-icon-button {
+    padding: 0;
+    min-width: 0;
+    width: 35px !important;
+    height: 30px !important;
+    flex-shrink: 0;
+    line-height: 25px !important;
+    border-radius: 40%;
+}
+@media only screen and (max-width: 580px) {
+    .mat-header-cell {
+        padding-top: 5px;
+    }
+    .mat-cell, .mat-menu-item {
+        font-size: 12px;
+    }
+    .material-icons {
+        font-size: 17px;
+    }
+    .mat-card-title {
+        font-size: 20px;
+    }
+    // .cdk-overlay-pane {
+    //     width: 80%;
+    // }
+}
+
+.mat-menu-content {
+    padding-top: 8px !important;
+    padding-bottom: 0px !important;
+}
+

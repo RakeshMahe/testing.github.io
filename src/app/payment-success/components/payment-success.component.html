@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+      <div class="payment">
+        <div class="payment_header">
+          <div class="check">
+            <img src="../../../../assets/imgs/info-icon.png" />
+          </div>
+        </div>
+        <div class="loader-content" *ngIf="(OnlineFeePaymentSandbox.updateApplicationPaymentStatusLoading$ | async)">
+          <app-page-loader></app-page-loader>
+        </div>
+        <div class="content" *ngIf="!(OnlineFeePaymentSandbox.updateApplicationPaymentStatusLoading$ | async)">
+          <h1
+            *ngIf="
+              (paymentStatusDetails && paymentStatusDetails.status == 1) ||
+              StatusUrl == 'success'
+            "
+          >
+            Payment Success !
+          </h1>
+          <h1
+            *ngIf="
+              (paymentStatusDetails && paymentStatusDetails.status != 1) ||
+              StatusUrl == 'failed'
+            "
+          >
+            Payment Failed !
+          </h1>
+
+          <p style="margin: 25px; font-size: 18px" *ngIf="cf_id">
+            Transaction Reference ID: {{ cf_id }}
+          </p>
+          <a class="home-page" (click)="goToPage()" *ngIf="cf_id">Home Page</a> <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="show-pdf" *ngIf="(paymentStatusDetails && paymentStatusDetails.status == 1) && !(OnlineFeePaymentSandbox.updateApplicationPaymentStatusLoading$ | async)">
+  <button class="print" (click)="printRecepit()">Download Receipt</button>
+  <iframe frameBorder="0" [src]="urlSafe"></iframe>
+</div>

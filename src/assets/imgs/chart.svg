@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="266" height="266" viewBox="0 0 266 266">
+    <g fill="none" fill-rule="evenodd">
+        <g fill-rule="nonzero">
+            <circle cx="133" cy="133" r="133" fill="#6DC9F7"/>
+            <path fill="#FFF" d="M219.005 235C247.744 210.543 266 174.085 266 133.333 266 59.693 206.455 0 133 0v132.999L219.005 235z"/>
+            <path fill="#FA759E" d="M262 133.368C262 62.92 207.2 5.326 138 1v129.243L221.292 229C246.362 204.864 262 170.962 262 133.368z"/>
+        </g>
+        <text fill="#FFF" font-family="Muli-SemiBold, Muli" font-size="17" font-weight="500">
+            <tspan x="54" y="143">526</tspan>
+        </text>
+        <text fill="#FFF" font-family="Muli-SemiBold, Muli" font-size="17" font-weight="500">
+            <tspan x="170" y="115">396</tspan>
+        </text>
+    </g>
+</svg>
